@@ -8,7 +8,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(){
-        System.out.println("home");
-        return "home";
+        return "landing";
     }
+
 }
