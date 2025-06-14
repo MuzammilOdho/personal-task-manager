@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/tasks")
@@ -45,10 +46,12 @@ public class TaskController {
 
     // Process new task
     @PostMapping("/add")
-    public String addTask(@ModelAttribute("task") Task task, HttpSession session) {
+    public String addTask(@ModelAttribute("task") Task task, HttpSession session, RedirectAttributes redirectAttributes) {
         User user =(User)session.getAttribute("loggedInUser");
         task.setUser(user);
         taskService.addTask(task);
+        redirectAttributes.addFlashAttribute("successMessage", "Task added successfully!");
+
         return "redirect:/tasks";
     }
 
@@ -66,15 +69,23 @@ public class TaskController {
 
     // Process task update
     @PostMapping("/update")
-    public String updateTask(@ModelAttribute("task") Task updatedTask, HttpSession session) {
+    public String updateTask(@ModelAttribute("task") Task updatedTask,
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
         taskService.updateTask(updatedTask,session);
+        redirectAttributes.addFlashAttribute("successMessage", "Task updated successfully!");
+
         return "redirect:/tasks";
     }
 
     // Delete task
     @GetMapping("/delete/{id}")
-    public String deleteTask(@PathVariable("id") int id, HttpSession session) {
+    public String deleteTask(@PathVariable("id") int id,
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
+
         taskService.deleteTask(id,session);
+        redirectAttributes.addFlashAttribute("successMessage", "Task deleted successfully!");
         return "redirect:/tasks";
     }
 

@@ -1,38 +1,80 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
   <title>Signup</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+    }
+    .container {
+      width: 400px;
+      margin: 100px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #bbb;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .message {
+      font-weight: bold;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .error { background-color: #f8d7da; color: #721c24; }
+    .success { background-color: #d4edda; color: #155724; }
+  </style>
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 bg-white p-4 shadow rounded">
-      <h3 class="text-center mb-4">Create Account</h3>
-      <form method="post" action="${pageContext.request.contextPath}/auth/signup">
-        <div class="mb-3">
-          <label>Name</label>
-          <input type="text" name="name" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label>Email</label>
-          <input type="email" name="email" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label>Password</label>
-          <input type="password" name="password" class="form-control" required />
-        </div>
-        <c:if test="${not empty error}">
-          <div class="alert alert-danger">${error}</div>
-        </c:if>
-        <button class="btn btn-success w-100">Sign Up</button>
-        <div class="text-center mt-3">
-          <a href="${pageContext.request.contextPath}/auth/login">Already have an account? Login</a>
-        </div>
-      </form>
+<body>
+<div class="container">
+  <h2>📝 Sign Up</h2>
+
+  <c:if test="${not empty errorMessage}">
+    <div class="message error">${errorMessage}</div>
+  </c:if>
+
+  <c:if test="${not empty successMessage}">
+    <div class="message success">${successMessage}</div>
+  </c:if>
+
+  <form action="${pageContext.request.contextPath}/auth/signup" method="post">
+    <div class="input-group">
+      <label>Name:</label>
+      <input type="text" name="name" required />
     </div>
-  </div>
+    <div class="input-group">
+      <label>Email:</label>
+      <input type="email" name="email" required />
+    </div>
+    <div class="input-group">
+      <label>Password:</label>
+      <input type="password" name="password" required />
+    </div>
+    <button type="submit">Create Account</button>
+  </form>
+
+  <p style="margin-top: 15px;">Already have an account? <a href="${pageContext.request.contextPath}/auth/login">Login</a></p>
 </div>
 </body>
 </html>

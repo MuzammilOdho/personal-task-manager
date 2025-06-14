@@ -24,10 +24,6 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        if(userAlreadyExists(user.getEmail())){
-            System.out.println("user already exists");
-            return;
-        }
         userDao.save(user);
     }
 

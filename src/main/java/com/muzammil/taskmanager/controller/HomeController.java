@@ -1,5 +1,6 @@
 package com.muzammil.taskmanager.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -7,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @RequestMapping("/")
-    public String home(){
+    public String home(HttpSession session) {
+        if (session.getAttribute("user") == null) {
         return "landing";
+        }
+        return "redirect:/tasks";
     }
 
 }

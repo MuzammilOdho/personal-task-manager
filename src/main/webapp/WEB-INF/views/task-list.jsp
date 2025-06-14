@@ -32,6 +32,23 @@
             margin-bottom: 30px;
         }
 
+        .message {
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -100,6 +117,15 @@
 <body>
 <div class="container">
     <h1>📋 Your Task List</h1>
+
+    <!-- Success & Error Messages -->
+    <c:if test="${not empty successMessage}">
+        <div class="message success">${successMessage}</div>
+    </c:if>
+
+    <c:if test="${not empty errorMessage}">
+        <div class="message error">${errorMessage}</div>
+    </c:if>
 
     <a href="${pageContext.request.contextPath}/tasks/add" class="btn-add">
         <i class="fas fa-plus"></i> Add New Task
