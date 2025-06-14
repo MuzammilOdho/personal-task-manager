@@ -1,77 +1,81 @@
 package com.muzammil.taskmanager.controller;
 
+import com.muzammil.taskmanager.dao.TaskDao;
 import com.muzammil.taskmanager.model.Task;
+import com.muzammil.taskmanager.model.User;
+import com.muzammil.taskmanager.service.TaskService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
 
-    private List<Task> taskList = new ArrayList<>();
-    private AtomicInteger idCounter = new AtomicInteger();
+    TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
 
     // Display all tasks
     @GetMapping
-    public String viewTasks(Model model) {
-        model.addAttribute("tasks", taskList);
-        return "todo-list";
+    public String viewTasks(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+        model.addAttribute("tasks",  taskService.findByUser(user));
+        return "task-list";
     }
 
     // Show add task form
     @GetMapping("/add")
-    public String showAddForm(Model model) {
+    public String showAddForm(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
         model.addAttribute("task", new Task());
-        return "add-todo";
+        return "task-form";
     }
+
 
     // Process new task
     @PostMapping("/add")
-    public String addTask(@ModelAttribute("task") Task task) {
-        task.setId(idCounter.incrementAndGet());
-//        task.setCreatedAt(new DateTime());
-        taskList.add(task);
+    public String addTask(@ModelAttribute("task") Task task, HttpSession session) {
+        User user =(User)session.getAttribute("loggedInUser");
+        task.setUser(user);
+        taskService.addTask(task);
         return "redirect:/tasks";
     }
 
     // Show edit task form
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") int id, Model model) {
-        Task task = findTaskById(id);
-        if (task != null) {
-            model.addAttribute("task", task);
-            return "task-form";
+    public String showEditForm(@PathVariable("id") int id, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login";
         }
-        return "redirect:/tasks";
+        Task task = taskService.findById(id,session);
+        model.addAttribute("task", task);
+        return "edit-task";
     }
 
     // Process task update
     @PostMapping("/update")
-    public String updateTask(@ModelAttribute("task") Task updatedTask) {
-        Task existing = findTaskById(updatedTask.getId());
-        if (existing != null) {
-            existing.setTitle(updatedTask.getTitle());
-            existing.setDescription(updatedTask.getDescription());
-        }
+    public String updateTask(@ModelAttribute("task") Task updatedTask, HttpSession session) {
+        taskService.updateTask(updatedTask,session);
         return "redirect:/tasks";
     }
 
     // Delete task
     @GetMapping("/delete/{id}")
-    public String deleteTask(@PathVariable("id") int id) {
-        taskList.removeIf(t -> t.getId() == id);
+    public String deleteTask(@PathVariable("id") int id, HttpSession session) {
+        taskService.deleteTask(id,session);
         return "redirect:/tasks";
     }
 
-    // Helper
-    private Task findTaskById(int id) {
-        return taskList.stream()
-                .filter(t -> t.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
 }

@@ -33,10 +33,6 @@ public class TaskDao {
         return getSession().find(Task.class, id);
     }
 
-    public List<Task> findAll() {
-        return getSession().createQuery("FROM Task", Task.class).list();
-    }
-
     public void update(Task task) {
         getSession().merge(task);
     }

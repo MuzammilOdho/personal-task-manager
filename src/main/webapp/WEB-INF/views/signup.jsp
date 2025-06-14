@@ -1,28 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-  <title>Sign Up - ToDoMate</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>Signup</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-light">
 <div class="container mt-5">
-  <h2 class="mb-4">Create an Account</h2>
-  <form action="/signup" method="post">
-    <div class="mb-3">
-      <label class="form-label">Username</label>
-      <input type="text" name="username" class="form-control" required />
+  <div class="row justify-content-center">
+    <div class="col-md-6 bg-white p-4 shadow rounded">
+      <h3 class="text-center mb-4">Create Account</h3>
+      <form method="post" action="${pageContext.request.contextPath}/auth/signup">
+        <div class="mb-3">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" name="email" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label>Password</label>
+          <input type="password" name="password" class="form-control" required />
+        </div>
+        <c:if test="${not empty error}">
+          <div class="alert alert-danger">${error}</div>
+        </c:if>
+        <button class="btn btn-success w-100">Sign Up</button>
+        <div class="text-center mt-3">
+          <a href="${pageContext.request.contextPath}/auth/login">Already have an account? Login</a>
+        </div>
+      </form>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input type="email" name="email" class="form-control" required />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input type="password" name="password" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
-    <a href="/login" class="btn btn-link">Already have an account?</a>
-  </form>
+  </div>
 </div>
 </body>
 </html>
