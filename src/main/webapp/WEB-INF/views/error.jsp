@@ -1,9 +1,12 @@
-<%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isErrorPage="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>❗ Error Page</title>
+    <title>❗ Error</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
@@ -14,27 +17,30 @@
         }
 
         .error-box {
-            display: inline-block;
             background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             padding: 40px 60px;
             max-width: 600px;
+            margin: auto;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            font-size: 48px;
+        i {
+            font-size: 60px;
             color: #dc3545;
         }
 
+        h1 {
+            color: #dc3545;
+            font-size: 48px;
+        }
+
         h2 {
-            font-size: 24px;
             color: #333;
             margin: 20px 0;
         }
 
         p {
-            font-size: 16px;
             color: #666;
         }
 
@@ -49,21 +55,20 @@
         a:hover {
             text-decoration: underline;
         }
-
-        i {
-            font-size: 60px;
-            color: #dc3545;
-        }
     </style>
 </head>
 <body>
 <div class="error-box">
     <i class="fas fa-exclamation-triangle"></i>
     <h1>Oops!</h1>
-    <h2>${requestScope['javax.servlet.error.status_code']} - ${requestScope['javax.servlet.error.message']}</h2>
+    <h2>An error occurred</h2>
 
-    <c:if test="${not empty exception}">
-        <p><strong>Cause:</strong> ${exception.message}</p>
+    <c:if test="${not empty errorMessage}">
+        <p><strong>Details:</strong> ${errorMessage}</p>
+    </c:if>
+
+    <c:if test="${empty errorMessage}">
+        <p>Something went wrong. Please try again later.</p>
     </c:if>
 
     <a href="${pageContext.request.contextPath}/">← Back to Home</a>
