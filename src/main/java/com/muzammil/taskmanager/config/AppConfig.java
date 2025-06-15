@@ -1,9 +1,11 @@
 package com.muzammil.taskmanager.config;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -15,16 +17,26 @@ import java.util.Properties;
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
+@PropertySource("classpath:application.properties")
 public class AppConfig {
+
+    @Value("${DB_DRIVER}")
+    private String dbDriver;
+    @Value("${DB_URL}")
+    private String dbUrl;
+    @Value("${DB_USERNAME}")
+    private String dbUser;
+    @Value("${DB_PASSWORD}")
+    private String dbPassword;
 
     @Bean
     public DataSource dataSource() {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/taskmanager");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("6346");
+        dataSource.setDriverClassName(dbDriver);
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(dbUser);
+        dataSource.setPassword(dbPassword);
         return dataSource;
     }
 

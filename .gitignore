@@ -1,17 +1,31 @@
-# Maven target directory
+# ===========================
+# Maven build and dependency files
+# ===========================
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-# Build output
-*.class
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
 *.log
-out/
+
+# ===========================
+# Compiled class files
+# ===========================
+*.class
+*.jar
 *.war
 *.ear
 
-# IntelliJ IDEA
+# ===========================
+# IDE specific files
+# ===========================
+
+# IntelliJ
 .idea/
 *.iml
 *.iws
@@ -39,9 +53,67 @@ out/
 # VS Code
 .vscode/
 
+# ===========================
+# OS-specific files
+# ===========================
+
 # macOS
 .DS_Store
 
-# Others
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===========================
+# Logs, temp files, etc.
+# ===========================
 logs/
 *.log
+*.tmp
+*.bak
+
+# ===========================
+# Spring Boot / Spring MVC properties
+# ===========================
+
+# Don't commit real config files!
+.env
+*.env
+.env.*
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+# Use this instead:
+# application.properties.example
+# .env.example
+
+# ===========================
+# Database files (H2, SQLite etc.)
+# ===========================
+*.h2.db
+*.mv.db
+*.db
+*.sql
+
+# ===========================
+# Node / frontend (if used)
+# ===========================
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# ===========================
+# Git
+# ===========================
+*.orig
+*.rej
+*.patch
+
+# ===========================
+# Others
+# ===========================
+out/

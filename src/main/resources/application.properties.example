@@ -1,0 +1,4 @@
+DB_DRIVER="db driver"
+DB_URL="your db url"
+DB_USERNAME="Your db username"
+DB_PASSWORD="Your db password"
