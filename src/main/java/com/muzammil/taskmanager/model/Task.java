@@ -2,8 +2,9 @@ package com.muzammil.taskmanager.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "tasks")
@@ -17,7 +18,7 @@ public class Task {
 
     private String description;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt = LocalDate.now();
 
     private boolean completed;
 
@@ -50,11 +51,11 @@ public class Task {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 

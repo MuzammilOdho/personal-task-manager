@@ -115,6 +115,22 @@
 </head>
 
 <body>
+<div style="text-align: right;">
+    <form action="${pageContext.request.contextPath}/auth/logout" method="get" style="display: inline;">
+        <button type="submit" style="
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        ">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </form>
+</div>
+
 <div class="container">
     <h1>📋 Your Task List</h1>
 
@@ -175,5 +191,8 @@
         </tbody>
     </table>
 </div>
+
+
+
 </body>
 </html>
